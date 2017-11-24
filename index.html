@@ -1,0 +1,98 @@
+<!doctype html>
+<html>
+<head>
+  <title>Miracle Light Controller</title>
+  <meta charset="UTF-8" />
+  <meta name="description" content="Controls Miracle Heart Light" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/tone/0.12.11/Tone.min.js"></script>
+  <script type="text/javascript">
+var synth = new Tone.Synth({
+  oscillator: {
+    type: 'sine',
+  },
+}).toMaster();
+
+var signalHz = [
+  18500,
+  18750,
+  19000,
+  19250,
+  19500,
+];
+
+function insertControl(elem, name, command) {
+  var button = document.createElement('button');
+  button.innerText = name;
+  button.onclick = function() {
+    var transport = Tone.Transport;
+    transport.scheduleOnce(function() {
+      synth.triggerAttack(signalHz[0]);
+    }, '+0.0');
+    transport.scheduleOnce(function() {
+      synth.triggerRelease();
+    }, '+0.19');
+    command.split('').forEach(function(c, i) {
+      transport.scheduleOnce(function() {
+        synth.triggerAttack(signalHz[parseInt(c, 10)]);
+      }, '+0.' + (i + 2));
+      transport.scheduleOnce(function() {
+        synth.triggerRelease();
+      }, '+0.' + (i + 2) + '9');
+    });
+    transport.start();
+  };
+  elem.appendChild(button);
+};
+  </script>
+</head>
+<body>
+  <h1>Miracle Light Controller</h1>
+  <div id="off">
+    <h2>Off</h2>
+  </div>
+  <div id="on">
+    <h2>On</h2>
+  </div>
+  <div id="blink">
+    <h2>Blink</h2>
+  </div>
+  <div id="complex">
+    <h2>Complex</h2>
+  </div>
+  <script type="text/javascript">
+var d = document.getElementById('off');
+insertControl(d, 'off', '3212341');
+insertControl(d, 'off 2', '1434341');
+d = document.getElementById('on');
+insertControl(d, 'pink', '3434321');
+insertControl(d, 'orange', '3214321');
+insertControl(d, 'yellow', '1212323');
+insertControl(d, 'blue', '3434121');
+insertControl(d, 'skyblue', '1432321');
+insertControl(d, 'purple', '3432123');
+insertControl(d, 'white', '3212141');
+d = document.getElementById('blink');
+insertControl(d, 'pink', '3434143');
+insertControl(d, 'pink 2', '3414343');
+insertControl(d, 'red', '3414143');
+insertControl(d, 'yellow', '3412323');
+insertControl(d, 'green', '1234143');
+insertControl(d, 'skyblue', '1234141');
+insertControl(d, 'skyblue 2', '3412343');
+insertControl(d, 'white', '1232323');
+insertControl(d, 'white 2', '3234343');
+d = document.getElementById('complex');
+insertControl(d, 'pink-yellow-skyblue', '3234141'); // party
+insertControl(d, 'pink-yellow-skyblue 2', '1414141'); // you believe
+insertControl(d, 'pink-pink-red', '3412143'); // kawaii
+insertControl(d, 'skyblue-skyblue-yellow', '3212143'); // omoiyari
+insertControl(d, 'yellow-yellow-green', '1212123'); // nakayoku
+insertControl(d, 'purple-blue fast', '1434123'); // dark
+insertControl(d, 'purple-blue slow', '1412121'); // dark
+insertControl(d, 'white-white-green', '1434323'); // 誰でもが持ってる
+insertControl(d, 'rainbow fast', '3414123'); // rainbow
+insertControl(d, 'rainbow slow', '1234123'); // miracle gift
+  </script>
+</body>
+</html>
