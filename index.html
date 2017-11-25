@@ -21,29 +21,39 @@ var signalHz = [
   19500,
 ];
 
+function playSignal(command) {
+  var transport = Tone.Transport;
+  transport.scheduleOnce(function() {
+    synth.triggerAttack(signalHz[0]);
+  }, '+0.0');
+  transport.scheduleOnce(function() {
+    synth.triggerRelease();
+  }, '+0.19');
+  command.split('').forEach(function(c, i) {
+    transport.scheduleOnce(function() {
+      synth.triggerAttack(signalHz[parseInt(c, 10)]);
+    }, '+0.' + (i + 2));
+    transport.scheduleOnce(function() {
+      synth.triggerRelease();
+    }, '+0.' + (i + 2) + '9');
+  });
+  transport.start();
+  document.getElementById('txtCustom').value = command;
+}
+
 function insertControl(elem, name, command) {
   var button = document.createElement('button');
   button.innerText = name;
   button.onclick = function() {
-    var transport = Tone.Transport;
-    transport.scheduleOnce(function() {
-      synth.triggerAttack(signalHz[0]);
-    }, '+0.0');
-    transport.scheduleOnce(function() {
-      synth.triggerRelease();
-    }, '+0.19');
-    command.split('').forEach(function(c, i) {
-      transport.scheduleOnce(function() {
-        synth.triggerAttack(signalHz[parseInt(c, 10)]);
-      }, '+0.' + (i + 2));
-      transport.scheduleOnce(function() {
-        synth.triggerRelease();
-      }, '+0.' + (i + 2) + '9');
-    });
-    transport.start();
+    playSignal(command);
   };
   elem.appendChild(button);
-};
+}
+
+function playCustom() {
+  playSignal(document.getElementById('txtCustom').value);
+}
+
   </script>
 </head>
 <body>
@@ -59,6 +69,11 @@ function insertControl(elem, name, command) {
   </div>
   <div id="complex">
     <h2>Complex</h2>
+  </div>
+  <div>
+    <h2>Custom</h2>
+    <input id="txtCustom" type="text" value="3212341" />
+    <button onclick="javascript:playCustom();">Play</button>
   </div>
   <script type="text/javascript">
 var d = document.getElementById('off');
