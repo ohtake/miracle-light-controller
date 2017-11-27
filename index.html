@@ -5,6 +5,35 @@
   <meta charset="UTF-8" />
   <meta name="description" content="Controls Miracle Heart Light" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style type="text/css">
+body {
+  background-color: #BDBDBD;
+  color: #212121;
+  margin: 0 0 1em;
+  padding: 0;
+}
+a {
+  color: #3F51B5;
+}
+body > * {
+  margin-left: 0.5em;
+  margin-right: 0.5em;
+}
+h1 {
+  font-size: 100%;
+  margin: 0;
+  padding: 0.1em 0.5em;
+}
+h2 {
+  font-size: 100%;
+  background-color: #9E9E9E;
+  margin: 0.2em 0;
+  padding: 0.1em 0.5em;
+}
+td button {
+  width: 100%;
+}
+  </style>
   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/tone/0.12.11/Tone.min.js"></script>
   <script type="text/javascript">
 var synth = new Tone.Synth({
@@ -20,6 +49,19 @@ var signalHz = [
   19250,
   19500,
 ];
+
+var colors = {
+  red: '#F44336',
+  orange: '#FF9800',
+  pink: '#F48FB1',
+  yellow: '#FFEB3B',
+  green: '#4CAF50',
+  cyan: '#00BCD4',
+  blue: '#2196F3',
+  purple: '#9C27B0',
+  white: '#FAFAFA',
+  black: '#424242',
+};
 
 function playSignal(command) {
   var transport = Tone.Transport;
@@ -41,13 +83,39 @@ function playSignal(command) {
   document.getElementById('txtCustom').value = command;
 }
 
-function insertControl(elem, name, command) {
-  var button = document.createElement('button');
-  button.innerText = name;
-  button.onclick = function() {
-    playSignal(command);
-  };
-  elem.appendChild(button);
+function createPatternCell(pattern) {
+  var cell = document.createElement('td');
+  cell.style.lineHeight = '0';
+  pattern.forEach(function(p) {
+    var elem = document.createElement('span');
+    elem.title = p[0];
+    elem.style.backgroundColor = colors[p[0]];
+    elem.style.width = (p[1] * 2) + 'em';
+    elem.style.height = '1em';
+    elem.style.display = 'inline-block';
+    cell.appendChild(elem);
+  });
+  return cell;
+}
+
+function insertControl(table, command, name, pattern) {
+  var row = document.createElement('tr');
+  row.appendChild(createPatternCell(pattern));
+  var button;
+  if (command) {
+    button = document.createElement('button');
+    button.innerText = name;
+    button.onclick = function() {
+      playSignal(command);
+    };
+  } else {
+    button = document.createElement('span');
+    button.innerText = name;
+  }
+  var cell = document.createElement('td');
+  cell.appendChild(button);
+  row.appendChild(cell);
+  table.children[0].appendChild(row);
 }
 
 function playCustom() {
@@ -57,61 +125,52 @@ function playCustom() {
   </script>
 </head>
 <body>
-  <h1>Miracle Light Controller</h1>
-  <div id="off">
-    <h2>Off</h2>
-  </div>
-  <div id="on">
-    <h2>On</h2>
-  </div>
-  <div id="blink">
-    <h2>Blink</h2>
-  </div>
-  <div id="complex">
-    <h2>Complex</h2>
-  </div>
+  <h1><a href="https://github.com/ohtake/miracle-light-controller">Miracle Light Controller</a></h1>
+  <h2>Off / On / Blink</h2>
+  <table id="off"><tbody></tbody></table>
+  <table style="float: left;" id="on"><tbody></tbody></table>
+  <table style="float: left;" id="blink"><tbody></tbody></table>
+  <div style="clear: both;"></div>
+  <h2><a href="https://www.puroland.jp/liveshow/miracle-gift-parade/">Miracle Gift Parade</a></h2>
+  <table id="mgp"><tbody></tbody></table>
+  <h2>Custom</h2>
   <div>
-    <h2>Custom</h2>
-    <input id="txtCustom" type="text" value="3212341" />
+    <input id="txtCustom" type="text" value="3212341" size="7" />
     <button onclick="javascript:playCustom();">Play</button>
   </div>
   <script type="text/javascript">
-var d = document.getElementById('off');
-insertControl(d, 'off', '3212341');
-insertControl(d, 'off 2', '1434341');
-d = document.getElementById('on');
-insertControl(d, 'pink', '3434321');
-insertControl(d, 'orange', '3214321');
-insertControl(d, 'yellow', '1212323');
-insertControl(d, 'blue', '3434121');
-insertControl(d, 'skyblue', '1432321');
-insertControl(d, 'purple', '3432123');
-insertControl(d, 'white', '3212141');
-d = document.getElementById('blink');
-insertControl(d, 'pink', '3434143');
-insertControl(d, 'pink 2', '3414343');
-insertControl(d, 'red', '3414143');
-insertControl(d, 'yellow', '3412323');
-insertControl(d, 'green', '1234143');
-insertControl(d, 'skyblue', '1234141');
-insertControl(d, 'skyblue 2', '3412343');
-insertControl(d, 'white', '1232323');
-insertControl(d, 'white 2', '3234343');
-d = document.getElementById('complex');
-insertControl(d, 'pink-yellow-skyblue', '3234141'); // party
-insertControl(d, 'pink-yellow-skyblue 2', '1414141'); // you believe
-insertControl(d, 'pink-pink-red', '3412143'); // kawaii
-insertControl(d, 'skyblue-skyblue-yellow', '3212143'); // omoiyari
-insertControl(d, 'yellow-yellow-green', '1212123'); // nakayoku
-insertControl(d, 'purple-blue fast', '1434123'); // dark
-insertControl(d, 'purple-blue slow', '1412121'); // dark
-insertControl(d, 'white-white-green', '1434323'); // 誰でもが持ってる
-insertControl(d, 'rainbow fast', '3414123'); // rainbow
-insertControl(d, 'rainbow slow', '1234123'); // miracle gift
+var t = document.getElementById('off');
+insertControl(t, '3212341', 'off', [['black', 5]]); // '1434341'
+t = document.getElementById('on');
+insertControl(t, '', 'red', [['red', 2]]);
+insertControl(t, '3214321', 'orange', [['orange', 2]]);
+insertControl(t, '3434321', 'pink', [['pink', 2]]);
+insertControl(t, '1212323', 'yellow', [['yellow', 2]]);
+insertControl(t, '', 'green', [['green', 2]]);
+insertControl(t, '1432321', 'cyan', [['cyan', 2]]);
+insertControl(t, '3434121', 'blue', [['blue', 2]]);
+insertControl(t, '3432123', 'purple', [['purple', 2]]);
+insertControl(t, '3212141', 'white', [['white', 2]]);
+t = document.getElementById('blink');
+insertControl(t, '3414143', 'red', [['red', 1.25], ['black', 1.25]]);
+insertControl(t, '', 'orange', [['orange', 1.25], ['black', 1.25]]);
+insertControl(t, '3434143', 'pink', [['pink', 1.25], ['black', 1.25]]); // '3414343'
+insertControl(t, '3412323', 'yellow', [['yellow', 1.25], ['black', 1.25]]);
+insertControl(t, '1234143', 'green', [['green', 1.25], ['black', 1.25]]);
+insertControl(t, '1234141', 'cyan', [['cyan', 1.25], ['black', 1.25]]); // '3412343'
+insertControl(t, '', 'blue', [['blue', 1.25], ['black', 1.25]]);
+insertControl(t, '', 'purple', [['purple', 1.25], ['black', 1.25]]);
+insertControl(t, '1232323', 'white', [['white', 1.25], ['black', 1.25]]); // '3234343'
+t = document.getElementById('mgp');
+insertControl(t, '3234141', 'three hearts', [['pink', 1], ['yellow', 1], ['cyan', 1]]); // '1414141'
+insertControl(t, '3412143', 'kawaii', [['pink', 2], ['red', 1]]);
+insertControl(t, '1212123', 'nakayoku', [['yellow', 2], ['green', 1]]);
+insertControl(t, '3212143', 'omoiyari', [['cyan', 2], ['yellow', 1]]);
+insertControl(t, '1434123', 'dark fast', [['purple', 0.5], ['blue', 0.5]]);
+insertControl(t, '1412121', 'dark slow', [['purple', 1], ['blue', 1]]);
+insertControl(t, '1434323', '誰でもが持ってる', [['white', 2], ['green', 1]]);
+insertControl(t, '3414123', 'rainbow', [['red', 0.625], ['orange', 0.625], ['pink', 0.625], ['yellow', 0.625], ['green', 0.625], ['cyan', 0.625], ['blue', 0.625], ['purple', 0.625]]);
+insertControl(t, '1234123', 'miracle gift', [['red', 1.25], ['orange', 1.25], ['pink', 1.25], ['yellow', 1.25], ['green', 1.25], ['cyan', 1.25], ['blue', 1.25], ['purple', 1.25]]);
   </script>
-  <h2>Links</h2>
-  <ul>
-    <li><a href="https://github.com/ohtake/miracle-light-controller">GitHub</a></li>
-  </ul>
 </body>
 </html>
