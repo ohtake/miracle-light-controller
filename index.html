@@ -157,10 +157,11 @@ function convertIdToCommand(id, isLittleEndian, isLowZero) {
 </head>
 <body>
   <h1><a href="https://github.com/ohtake/miracle-light-controller">Miracle Light Controller</a></h1>
-  <h2>Off / On / Blink</h2>
+  <h2>Off / On / 50bpm / 60bpm</h2>
   <table id="off"><tbody></tbody></table>
   <table style="float: left;" id="on"><tbody></tbody></table>
-  <table style="float: left;" id="blink"><tbody></tbody></table>
+  <table style="float: left;" id="blink50"><tbody></tbody></table>
+  <table style="float: left;" id="blink60"><tbody></tbody></table>
   <div style="clear: both;"></div>
   <h2><a href="https://www.puroland.jp/liveshow/miracle-gift-parade/">Miracle Gift Parade</a></h2>
   <table id="mgp"><tbody></tbody></table>
@@ -173,37 +174,48 @@ function convertIdToCommand(id, isLittleEndian, isLowZero) {
   </div>
   <script type="text/javascript">
 var t = document.getElementById('off');
-insertControl(t, '3212341', 'off', [['black', 5]]); // '1434341'
+insertControl(t, '3212341', 'off', [['black', 4/60*60]]); // '1434341', '1214343'
 t = document.getElementById('on');
-insertControl(t, '3234321', 'red', [['red', 2]]);
-insertControl(t, '3214321', 'orange', [['orange', 2]]);
-insertControl(t, '3434321', 'pink', [['pink', 2]]);
-insertControl(t, '1212323', 'yellow', [['yellow', 2]]);
-insertControl(t, '1412321', 'green', [['green', 2]]);
-insertControl(t, '1432321', 'cyan', [['cyan', 2]]);
-insertControl(t, '3434121', 'blue', [['blue', 2]]);
-insertControl(t, '3432123', 'purple', [['purple', 2]]);
-insertControl(t, '3212141', 'white', [['white', 2]]);
-t = document.getElementById('blink');
-insertControl(t, '3414143', 'red', [['red', 1.25], ['black', 1.25]]);
-insertControl(t, '1232343', 'orange', [['orange', 1.25], ['black', 1.25]]);
-insertControl(t, '3434143', 'pink', [['pink', 1.25], ['black', 1.25]]); // '3414343'
-insertControl(t, '3412323', 'yellow', [['yellow', 1.25], ['black', 1.25]]);
-insertControl(t, '1234143', 'green', [['green', 1.25], ['black', 1.25]]);
-insertControl(t, '1234141', 'cyan', [['cyan', 1.25], ['black', 1.25]]); // '3412343'
-insertControl(t, '1232341', 'blue', [['blue', 1.25], ['black', 1.25]]);
-insertControl(t, '1214123', 'purple', [['purple', 1.25], ['black', 1.25]]);
-insertControl(t, '1232323', 'white', [['white', 1.25], ['black', 1.25]]); // '3234343'
+insertControl(t, '3234321', 'red', [['red', 1/60*60]]);
+insertControl(t, '3214321', 'orange', [['orange', 1/60*60]]);
+insertControl(t, '3434321', 'pink', [['pink', 1/60*60]]);
+insertControl(t, '1212323', 'yellow', [['yellow', 1/60*60]]);
+insertControl(t, '1412321', 'green', [['green', 1/60*60]]);
+insertControl(t, '1432321', 'cyan', [['cyan', 1/60*60]]);
+insertControl(t, '3434121', 'blue', [['blue', 1/60*60]]);
+insertControl(t, '3432123', 'purple', [['purple', 1/60*60]]);
+insertControl(t, '3212141', 'white', [['white', 1/60*60]]);
+t = document.getElementById('blink50');
+insertControl(t, '3414143', 'red-50', [['red', 1/50*60], ['black', 1/50*60]]);
+insertControl(t, '3232123', 'orange-50', [['orange', 1/50*60], ['black', 1/50*60]]);
+insertControl(t, '3434143', 'pink-50', [['pink', 1/50*60], ['black', 1/50*60]]);
+insertControl(t, '3414341', 'yellow-50', [['yellow', 1/50*60], ['black', 1/50*60]]);
+insertControl(t, '3214341', 'green-50', [['green', 1/50*60], ['black', 1/50*60]]);
+insertControl(t, '1234141', 'cyan-50', [['cyan', 1/50*60], ['black', 1/50*60]]);
+insertControl(t, '1232341', 'blue-50', [['blue', 1/50*60], ['black', 1/50*60]]);
+insertControl(t, '3432341', 'purple-50', [['purple', 1/50*60], ['black', 1/50*60]]);
+insertControl(t, '3234343', 'white-50', [['white', 1/50*60], ['black', 1/50*60]]);
+t = document.getElementById('blink60');
+insertControl(t, '3432343', 'red-60', [['red', 1/60*60], ['black', 1/60*60]]);
+insertControl(t, '1232343', 'orange-60', [['orange', 1/60*60], ['black', 1/60*60]]);
+insertControl(t, '3414343', 'pink-60', [['pink', 1/60*60], ['black', 1/60*60]]);
+insertControl(t, '3412323', 'yellow-60', [['yellow', 1/60*60], ['black', 1/60*60]]);
+insertControl(t, '1234143', 'green-60', [['green', 1/60*60], ['black', 1/60*60]]);
+insertControl(t, '3412343', 'cyan-60', [['cyan', 1/60*60], ['black', 1/60*60]]);
+insertControl(t, '1214143', 'blue-60', [['blue', 1/60*60], ['black', 1/60*60]]);
+insertControl(t, '1214123', 'purple-60', [['purple', 1/60*60], ['black', 1/60*60]]);
+insertControl(t, '1232323', 'white-60', [['white', 1/60*60], ['black', 1/60*60]]);
 t = document.getElementById('mgp');
-insertControl(t, '3234141', 'three hearts', [['pink', 1], ['yellow', 1], ['cyan', 1]]); // '1414141'
-insertControl(t, '3412143', 'kawaii', [['pink', 2.25], ['red', 0.75]]);
-insertControl(t, '1212123', 'nakayoku', [['yellow', 2.25], ['green', 0.75]]);
-insertControl(t, '3212143', 'omoiyari', [['cyan', 2.25], ['yellow', 0.75]]);
-insertControl(t, '1434123', 'dark fast', [['purple', 0.5], ['blue', 0.5]]);
-insertControl(t, '1412121', 'dark slow', [['purple', 1.25], ['blue', 1.25]]);
-insertControl(t, '1434323', '誰でもが持ってる', [['white', 2.25], ['green', 0.75]]);
-insertControl(t, '3414123', 'rainbow', [['red', 0.625], ['orange', 0.625], ['pink', 0.625], ['yellow', 0.625], ['green', 0.625], ['cyan', 0.625], ['blue', 0.625], ['purple', 0.625]]);
-insertControl(t, '1234123', 'miracle gift', [['red', 1.25], ['orange', 1.25], ['pink', 1.25], ['yellow', 1.25], ['green', 1.25], ['cyan', 1.25], ['blue', 1.25], ['purple', 1.25]]);
+insertControl(t, '3234141', 'three hearts', [["pink", 1/55*60], ["yellow", 1/55*60], ["cyan", 1/55*60]]);
+insertControl(t, '3412143', 'kawaii', [['pink', 3/80*60], ['red', 1/80*60]]);
+insertControl(t, '1212123', 'nakayoku', [['yellow', 3/65*60], ['green', 1/65*60]]);
+insertControl(t, '3212143', 'omoiyari', [['cyan', 3/80*60], ['yellow', 1/80*60]]);
+insertControl(t, '1434123', 'dark fast', [['purple', 1/100*60], ['blue', 1/100*60]]);
+insertControl(t, '1412121', 'dark slow', [['purple', 1/50*60], ['blue', 1/50*60]]);
+insertControl(t, '1434323', '誰でもが持ってる', [['white', 3/80*60], ['green', 1/80*60]]);
+insertControl(t, '1414141', 'you believe', [["pink", 1/50*60], ["yellow", 1/50*60], ["cyan", 1/50*60]]);
+insertControl(t, '3414123', 'rainbow', [["red", 1/100*60], ["orange", 1/100*60], ["pink", 1/100*60], ["yellow", 1/100*60], ["green", 1/100*60], ["cyan", 1/100*60], ["blue", 1/100*60], ["purple", 1/100*60]]);
+insertControl(t, '1234123', 'miracle gift', [["red", 1/50*60], ["orange", 1/50*60], ["pink", 1/50*60], ["yellow", 1/50*60], ["green", 1/50*60], ["cyan", 1/50*60], ["blue", 1/50*60], ["purple", 1/50*60]]);
 t = document.getElementById('all');
 var commands = [
   { command: "1212121", pattern: [["red", 3/65*60], ["green", 1/65*60]] },
