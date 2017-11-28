@@ -1,0 +1,27 @@
+body {
+  background-color: #BDBDBD;
+  color: #212121;
+  margin: 0 0 1em;
+  padding: 0;
+}
+a {
+  color: #3F51B5;
+}
+body > * {
+  margin-left: 0.5em;
+  margin-right: 0.5em;
+}
+h1 {
+  font-size: 100%;
+  margin: 0;
+  padding: 0.1em 0.5em;
+}
+h2 {
+  font-size: 100%;
+  background-color: #9E9E9E;
+  margin: 0.2em 0;
+  padding: 0.1em 0.5em;
+}
+td button {
+  width: 100%;
+}
