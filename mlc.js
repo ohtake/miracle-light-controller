@@ -195,17 +195,11 @@ function createPatternCell(pattern) {
 function insertControl(table, command, name, pattern) {
   var row = document.createElement('tr');
   row.appendChild(createPatternCell(pattern));
-  var button;
-  if (command) {
-    button = document.createElement('button');
-    button.innerText = name;
-    button.onclick = function() {
-      playSignal(command);
-    };
-  } else {
-    button = document.createElement('span');
-    button.innerText = name;
-  }
+  var button = document.createElement('button');
+  button.innerText = name;
+  button.onclick = function() {
+    playSignal(command);
+  };
   var cell = document.createElement('td');
   cell.appendChild(button);
   row.appendChild(cell);
