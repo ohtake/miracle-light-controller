@@ -173,7 +173,6 @@ function playSignal(command) {
     }, '+0.' + (i + 2) + '9');
   });
   transport.start();
-  document.getElementById('txtCustom').value = command;
 }
 
 function createPatternCell(pattern) {
@@ -204,10 +203,6 @@ function insertControl(table, command, name, pattern) {
   cell.appendChild(button);
   row.appendChild(cell);
   table.children[0].appendChild(row);
-}
-
-function playCustom() {
-  playSignal(document.getElementById('txtCustom').value);
 }
 
 function convertCommandToId(command, isLittleEndian, isLowZero) {
