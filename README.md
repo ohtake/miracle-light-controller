@@ -1,6 +1,6 @@
 # Miracle Light Controller
 
-You can control Miracle Heart Light.
+You can control Miracle Heart Light (ミラクル♡ライト).
 
 Demo: <https://ohtake.github.io/miracle-light-controller/>
 
