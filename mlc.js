@@ -1,10 +1,10 @@
-var synth = new Tone.Synth({
+const synth = new Tone.Synth({
   oscillator: {
     type: 'sine',
   },
 }).toMaster();
 
-var signalHz = [
+const signalHz = [
   18500,
   18750,
   19000,
@@ -12,7 +12,7 @@ var signalHz = [
   19500,
 ];
 
-var colors = {
+const colors = {
   red: '#F44336',
   orange: '#FF9800',
   pink: '#F48FB1',
@@ -25,7 +25,7 @@ var colors = {
   black: '#424242',
 };
 
-var commands = [
+const commands = [
   { command: '1212121', pattern: [65, 'red', 'red', 'red', 'green'] },
   { command: '3212121', pattern: [50, 'red', 'green'] },
   { command: '1412121', pattern: [50, 'purple', 'blue'] },
@@ -157,18 +157,18 @@ var commands = [
 ];
 
 function playSignal(command) {
-  var transport = Tone.Transport;
-  transport.scheduleOnce(function() {
+  const transport = Tone.Transport;
+  transport.scheduleOnce(() => {
     synth.triggerAttack(signalHz[0]);
   }, '+0.0');
-  transport.scheduleOnce(function() {
+  transport.scheduleOnce(() => {
     synth.triggerRelease();
   }, '+0.19');
-  command.split('').forEach(function(c, i) {
-    transport.scheduleOnce(function() {
+  command.split('').forEach((c, i) => {
+    transport.scheduleOnce(() => {
       synth.triggerAttack(signalHz[parseInt(c, 10)]);
     }, '+0.' + (i + 2));
-    transport.scheduleOnce(function() {
+    transport.scheduleOnce(() => {
       synth.triggerRelease();
     }, '+0.' + (i + 2) + '9');
   });
@@ -176,11 +176,11 @@ function playSignal(command) {
 }
 
 function createPatternCell(pattern) {
-  var cell = document.createElement('td');
+  const cell = document.createElement('td');
   cell.style.lineHeight = '0';
-  var bpm = pattern[0];
-  pattern.slice(1).forEach(function(p) {
-    var elem = document.createElement('span');
+  const bpm = pattern[0];
+  pattern.slice(1).forEach((p) => {
+    const elem = document.createElement('span');
     elem.title = p;
     elem.style.backgroundColor = colors[p];
     elem.style.width = (80 / bpm) + 'em';
@@ -192,28 +192,28 @@ function createPatternCell(pattern) {
 }
 
 function insertControl(table, command, name, pattern) {
-  var row = document.createElement('tr');
+  const row = document.createElement('tr');
   row.appendChild(createPatternCell(pattern));
-  var button = document.createElement('button');
+  const button = document.createElement('button');
   button.innerText = name;
-  button.onclick = function() {
+  button.onclick = () => {
     playSignal(command);
   };
-  var cell = document.createElement('td');
+  const cell = document.createElement('td');
   cell.appendChild(button);
   row.appendChild(cell);
   table.children[0].appendChild(row);
 }
 
 function convertCommandToId(command, isLittleEndian, isLowZero) {
-  var bits = command.split('').map((d, i) => {
-    var isHigh = parseInt(d, 10) >= 3;
+  const bits = command.split('').map((d, i) => {
+    const isHigh = parseInt(d, 10) >= 3;
     return !isLowZero ^ isHigh;
   });
   if (isLittleEndian) {
     bits.reverse();
   }
-  var id = 0;
+  let id = 0;
   bits.forEach((b) => {
     id |= b;
     id <<= 1;
@@ -223,21 +223,21 @@ function convertCommandToId(command, isLittleEndian, isLowZero) {
 }
 
 function convertIdToCommand(id, isLittleEndian, isLowZero) {
-  var places = [0, 1, 2, 3, 4, 5, 6];
+  const places = [0, 1, 2, 3, 4, 5, 6];
   if (!isLittleEndian) {
     places.reverse();
   }
-  var bits = places.map(i => (id>>i) % 2);
+  let bits = places.map(i => (id>>i) % 2);
   if (!isLowZero) {
     bits = bits.map(b => (b + 1) % 2);
   }
-  var nums = bits.map((b, i) => (b*2) + (i%2) + 1);
+  const nums = bits.map((b, i) => (b*2) + (i%2) + 1);
   console.log(nums.join(''));
   return nums.join('');
 }
 
 window.addEventListener('load', () => {
-  var t = document.getElementById('off');
+  let t = document.getElementById('off');
   insertControl(t, '3212341', 'off', [10, 'black']); // '1434341', '1214343'
   t = document.getElementById('on');
   insertControl(t, '3234321', 'red', [60, 'red']);
@@ -285,7 +285,7 @@ window.addEventListener('load', () => {
     command: o.command,
     pattern: o.pattern,
     id: convertCommandToId(o.command, true, true),
-  })).sort((x, y) => x.id - y.id).forEach(function(o, i) {
+  })).sort((x, y) => x.id - y.id).forEach((o, i) => {
     insertControl(t, o.command, o.id + '-' + o.command, o.pattern);
   });
 });
