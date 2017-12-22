@@ -1,9 +1,3 @@
-const synth = new Tone.Synth({
-  oscillator: {
-    type: 'sine',
-  },
-}).toMaster();
-
 const signalHz = [
   18500,
   18750,
@@ -160,7 +154,16 @@ const commands = [
   { command: '3434343', pattern: [] },
 ];
 
+let synth = null;
 function playSignal(command) {
+  if (!synth) {
+    // Create synth object in event handler to support iOS
+    synth = new Tone.Synth({
+      oscillator: {
+        type: 'sine',
+      },
+    }).toMaster();
+  }
   const transport = Tone.Transport;
   transport.scheduleOnce(() => {
     synth.triggerAttack(signalHz[0]);
