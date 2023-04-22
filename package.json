@@ -1,0 +1,23 @@
+{
+  "name": "miracle-light-controller",
+  "version": "1.0.0",
+  "license": "ISC",
+  "main": "src/mlc.js",
+  "scripts": {
+    "clean": "rimraf ./dist",
+    "check:types": "tsc --noEmit",
+    "build": "run-p -l check:* build:*",
+    "build:static": "copyfiles ./static/* --up 1 dist/",
+    "build:bundle": "esbuild src/mlc.ts --bundle --minify --outfile=dist/mlc.bundle.js"
+  },
+  "dependencies": {
+    "tone": "^14.7.77"
+  },
+  "devDependencies": {
+    "copyfiles": "^2.4.1",
+    "esbuild": "^0.17.17",
+    "npm-run-all2": "^6.0.5",
+    "rimraf": "^5.0.0",
+    "typescript": "^5.0.4"
+  }
+}
