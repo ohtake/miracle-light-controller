@@ -1,7 +1,6 @@
 {
   "compilerOptions": {
     "strict": true,
-    "noImplicitAny": false,
     "moduleResolution": "node16",
     "lib": ["DOM","ES2022"],
     "target": "es2016",

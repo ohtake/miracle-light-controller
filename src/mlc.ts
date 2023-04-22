@@ -6,7 +6,7 @@ const signalHz = [
   19000,
   19250,
   19500,
-];
+] as const satisfies readonly number[];
 
 const colors = {
   red: '#F44336',
@@ -19,13 +19,19 @@ const colors = {
   purple: '#9C27B0',
   white: '#FAFAFA',
   black: '#424242',
-};
+} as const satisfies Record<string, string>;
 
 const deviceIcons = {
   strawberry: '🍓',
-}
+} as const satisfies Record<string, string>;
 
-const commands = [
+type CommandDef = {
+  command: string,
+  pattern: [number, ...(keyof typeof colors)[]] | [],
+  devices?: (keyof typeof deviceIcons)[]
+};
+
+const commands: CommandDef[] = [
   { command: '1212121', pattern: [65, 'red', 'red', 'red', 'green'] },
   { command: '3212121', pattern: [50, 'red', 'green'] },
   { command: '1412121', pattern: [50, 'purple', 'blue'] },
@@ -168,7 +174,7 @@ function getSynth(): Synth {
   return synth;
 }
 
-function playSignal(command) {
+function playSignal(command:string) {
   const synth = getSynth();
   const transport = Transport;
   transport.scheduleOnce(() => {
@@ -188,11 +194,12 @@ function playSignal(command) {
   transport.start();
 }
 
-function createPatternCell(pattern, devices) {
+function createPatternCell(pattern:CommandDef["pattern"], devices:CommandDef["devices"]) {
   const cell = document.createElement('td');
   cell.style.lineHeight = '0';
-  const bpm = pattern[0];
-  pattern.slice(1).forEach((p) => {
+  const bpm = pattern[0] as number;
+  const colorArray = pattern.slice(1) as (keyof typeof colors)[];
+  colorArray.forEach((p) => {
     const elem = document.createElement('span');
     elem.title = p;
     elem.style.backgroundColor = colors[p];
@@ -209,7 +216,7 @@ function createPatternCell(pattern, devices) {
   return cell;
 }
 
-function insertControl(table, command, name, pattern, devices:string[]=[]) {
+function insertControl(table: HTMLTableElement, command: string, name:string, pattern: CommandDef["pattern"], devices:CommandDef["devices"]=[]) {
   const row = document.createElement('tr');
   row.appendChild(createPatternCell(pattern, devices));
   const button = document.createElement('button');
@@ -223,7 +230,7 @@ function insertControl(table, command, name, pattern, devices:string[]=[]) {
   table.children[0].appendChild(row);
 }
 
-function convertCommandToId(command, isLittleEndian, isLowZero) {
+function convertCommandToId(command:string, isLittleEndian:boolean, isLowZero: boolean) {
   const bits = command.split('').map((d, i) => {
     const isHigh = parseInt(d, 10) >= 3;
     return isLowZero !== isHigh;
@@ -233,14 +240,14 @@ function convertCommandToId(command, isLittleEndian, isLowZero) {
   }
   let id = 0;
   bits.forEach((b) => {
-    id |= b;
+    id |= b ? 1 : 0;
     id <<= 1;
   });
   id >>= 1;
   return id;
 }
 
-function convertIdToCommand(id, isLittleEndian, isLowZero) {
+function convertIdToCommand(id:number, isLittleEndian: boolean, isLowZero: boolean) {
   const places = [0, 1, 2, 3, 4, 5, 6];
   if (!isLittleEndian) {
     places.reverse();
@@ -255,9 +262,9 @@ function convertIdToCommand(id, isLittleEndian, isLowZero) {
 }
 
 window.addEventListener('load', () => {
-  let t = document.getElementById('off');
+  let t = document.getElementById('off') as HTMLTableElement;
   insertControl(t, '3212341', 'off', [10, 'black']); // '1434341', '1214343'
-  t = document.getElementById('on');
+  t = document.getElementById('on') as HTMLTableElement;
   insertControl(t, '3234321', 'red', [60, 'red']);
   insertControl(t, '3214321', 'orange', [60, 'orange']);
   insertControl(t, '3434321', 'pink', [60, 'pink']);
@@ -267,7 +274,7 @@ window.addEventListener('load', () => {
   insertControl(t, '3434121', 'blue', [60, 'blue']);
   insertControl(t, '3432123', 'purple', [60, 'purple']);
   insertControl(t, '3212141', 'white', [60, 'white']);
-  t = document.getElementById('blink50');
+  t = document.getElementById('blink50') as HTMLTableElement;
   insertControl(t, '3414143', 'red-50', [50, 'red', 'black']);
   insertControl(t, '3232123', 'orange-50', [50, 'orange', 'black']);
   insertControl(t, '3434143', 'pink-50', [50, 'pink', 'black']);
@@ -277,7 +284,7 @@ window.addEventListener('load', () => {
   insertControl(t, '1232341', 'blue-50', [50, 'blue', 'black']);
   insertControl(t, '3432341', 'purple-50', [50, 'purple', 'black']);
   insertControl(t, '3234343', 'white-50', [50, 'white', 'black']);
-  t = document.getElementById('blink60');
+  t = document.getElementById('blink60') as HTMLTableElement;
   insertControl(t, '3432343', 'red-60', [60, 'red', 'black']);
   insertControl(t, '1232343', 'orange-60', [60, 'orange', 'black']);
   insertControl(t, '3414343', 'pink-60', [60, 'pink', 'black']);
@@ -287,7 +294,7 @@ window.addEventListener('load', () => {
   insertControl(t, '1214143', 'blue-60', [60, 'blue', 'black']);
   insertControl(t, '1214123', 'purple-60', [60, 'purple', 'black']);
   insertControl(t, '1232323', 'white-60', [60, 'white', 'black']);
-  t = document.getElementById('mgp');
+  t = document.getElementById('mgp') as HTMLTableElement;
   insertControl(t, '3234141', 'three hearts', [55, 'pink', 'yellow', 'cyan']);
   insertControl(t, '3412143', 'kawaii', [80, 'pink', 'pink', 'pink', 'red']);
   insertControl(t, '1212123', 'nakayoku', [65, 'yellow', 'yellow', 'yellow', 'green']);
@@ -298,7 +305,7 @@ window.addEventListener('load', () => {
   insertControl(t, '1414141', 'you believe', [50, 'pink', 'yellow', 'cyan']);
   insertControl(t, '3414123', 'rainbow', [100, 'red', 'orange', 'pink', 'yellow', 'green', 'cyan', 'blue', 'purple']);
   insertControl(t, '1234123', 'miracle gift', [50, 'red', 'orange', 'pink', 'yellow', 'green', 'cyan', 'blue', 'purple']);
-  t = document.getElementById('all');
+  t = document.getElementById('all') as HTMLTableElement;
   commands.map(o => ({
     command: o.command,
     pattern: o.pattern,
