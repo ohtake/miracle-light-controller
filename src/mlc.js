@@ -1,4 +1,5 @@
 //@ts-check
+import { Synth, Transport } from "tone";
 
 const signalHz = [
   18500,
@@ -160,15 +161,13 @@ let synth = null;
 function playSignal(command) {
   if (!synth) {
     // Create synth object in event handler to support iOS
-    // @ts-expect-error global variable
-    synth = new Tone.Synth({
+    synth = new Synth({
       oscillator: {
         type: 'sine',
       },
     }).toMaster();
   }
-  // @ts-expect-error global variable
-  const transport = Tone.Transport;
+  const transport = Transport;
   transport.scheduleOnce(() => {
     synth.triggerAttack(signalHz[0]);
   }, '+0.0');

@@ -5,12 +5,17 @@
   "main": "src/mlc.js",
   "scripts": {
     "clean": "rimraf ./dist",
-    "build": "run-p -l build:*",
+    "check:types": "tsc --noEmit",
+    "build": "run-p -l check:* build:*",
     "build:static": "copyfiles ./static/* --up 1 dist/",
-    "build:tsc": "tsc"
+    "build:bundle": "esbuild src/mlc.js --bundle --minify --outfile=dist/mlc.bundle.js"
+  },
+  "dependencies": {
+    "tone": "^14.7.77"
   },
   "devDependencies": {
     "copyfiles": "^2.4.1",
+    "esbuild": "^0.17.17",
     "npm-run-all2": "^6.0.5",
     "rimraf": "^5.0.0",
     "typescript": "^5.0.4"
