@@ -1,0 +1,13 @@
+{
+  "compilerOptions": {
+    "strict": true,
+    "allowJs": true,
+    "noImplicitAny": false,
+    "moduleResolution": "node16",
+    "lib": ["DOM","ES2022"],
+    "target": "es2016",
+    "module": "None",
+    "outDir": "dist",
+    "removeComments": true
+  }
+}

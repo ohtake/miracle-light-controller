@@ -1,3 +1,5 @@
+//@ts-check
+
 const signalHz = [
   18500,
   18750,
@@ -158,12 +160,14 @@ let synth = null;
 function playSignal(command) {
   if (!synth) {
     // Create synth object in event handler to support iOS
+    // @ts-expect-error global variable
     synth = new Tone.Synth({
       oscillator: {
         type: 'sine',
       },
     }).toMaster();
   }
+  // @ts-expect-error global variable
   const transport = Tone.Transport;
   transport.scheduleOnce(() => {
     synth.triggerAttack(signalHz[0]);
@@ -220,7 +224,7 @@ function insertControl(table, command, name, pattern, devices) {
 function convertCommandToId(command, isLittleEndian, isLowZero) {
   const bits = command.split('').map((d, i) => {
     const isHigh = parseInt(d, 10) >= 3;
-    return !isLowZero ^ isHigh;
+    return isLowZero !== isHigh;
   });
   if (isLittleEndian) {
     bits.reverse();
