@@ -10,6 +10,17 @@ This application makes high frequency sound.
 Do not use it in public spaces.
 Especially, never use it during shows in Sanrio Puroland.
 
+## How to develop
+
+Install [Node.js](https://nodejs.org/en) 18 or later.
+
+```bash
+npm ci
+npm start
+```
+
+Open `develop/index.html` with a browser.
+
 ## Links
 
 * [Miracle Gift Paradeにおける3つのハートの色](https://ameblo.jp/ohtaket/entry-12338123508.html)

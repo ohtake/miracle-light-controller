@@ -4,11 +4,15 @@
   "license": "ISC",
   "main": "src/mlc.js",
   "scripts": {
-    "clean": "rimraf ./dist",
+    "clean": "rimraf ./dist ./develop",
     "check:types": "tsc --noEmit",
     "build": "run-p -l check:* build:*",
     "build:static": "cpx ./static/**/* dist/",
-    "build:bundle": "esbuild src/mlc.ts --bundle --minify --outfile=dist/mlc.bundle.js"
+    "build:bundle": "esbuild src/mlc.ts --bundle --outfile=dist/mlc.bundle.js --minify",
+    "start": "run-p -l watch:*",
+    "watch:types": "tsc --noEmit --watch",
+    "watch:static": "cpx ./static/**/* develop/ -w",
+    "watch:bundle": "esbuild src/mlc.ts --bundle --outfile=develop/mlc.bundle.js --watch"
   },
   "dependencies": {
     "tone": "^14.7.77"
