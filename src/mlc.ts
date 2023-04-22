@@ -1,4 +1,3 @@
-//@ts-check
 import { Synth, Transport } from "tone";
 
 const signalHz = [
@@ -157,16 +156,20 @@ const commands = [
   { command: '3434343', pattern: [] },
 ];
 
-let synth = null;
+let synth:Synth | undefined;
+function getSynth(): Synth {
+  if(synth) return synth;
+  // Create synth object in event handler to support iOS
+  synth = new Synth({
+    oscillator: {
+      type: 'sine',
+    },
+  }).toMaster();
+  return synth;
+}
+
 function playSignal(command) {
-  if (!synth) {
-    // Create synth object in event handler to support iOS
-    synth = new Synth({
-      oscillator: {
-        type: 'sine',
-      },
-    }).toMaster();
-  }
+  const synth = getSynth();
   const transport = Transport;
   transport.scheduleOnce(() => {
     synth.triggerAttack(signalHz[0]);
@@ -206,7 +209,7 @@ function createPatternCell(pattern, devices) {
   return cell;
 }
 
-function insertControl(table, command, name, pattern, devices) {
+function insertControl(table, command, name, pattern, devices:string[]=[]) {
   const row = document.createElement('tr');
   row.appendChild(createPatternCell(pattern, devices));
   const button = document.createElement('button');
