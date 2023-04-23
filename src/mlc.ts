@@ -25,9 +25,17 @@ const deviceIcons = {
   strawberry: '🍓',
 } as const satisfies Record<string, string>;
 
+type CommandCharO = "1" | "3";
+type CommandCharE = "2" | "4";
+type CommandCode = `${CommandCharO}${CommandCharE}${CommandCharO}${CommandCharE}${CommandCharO}${CommandCharE}${CommandCharO}`;
+
+type PatternUndefined = [];
+type PatternDefined = [number, ...(keyof typeof colors)[]];
+type Pattern = PatternUndefined | PatternDefined;
+
 type CommandDef = {
-  command: string,
-  pattern: [number, ...(keyof typeof colors)[]] | [],
+  command: CommandCode,
+  pattern: Pattern,
   devices?: (keyof typeof deviceIcons)[]
 };
 
@@ -174,7 +182,7 @@ function getSynth(): Synth {
   return synth;
 }
 
-function playSignal(command:string) {
+function playSignal(command:string):void {
   const synth = getSynth();
   const transport = Transport;
   transport.scheduleOnce(() => {
@@ -194,9 +202,10 @@ function playSignal(command:string) {
   transport.start();
 }
 
-function createPatternCell(pattern:CommandDef["pattern"], devices:CommandDef["devices"]) {
+function createPatternCell(pattern:Pattern, devices:CommandDef["devices"]): HTMLTableCellElement {
   const cell = document.createElement('td');
   cell.style.lineHeight = '0';
+  if (pattern.length === 0) return cell;
   const bpm = pattern[0] as number;
   const colorArray = pattern.slice(1) as (keyof typeof colors)[];
   colorArray.forEach((p) => {
@@ -216,7 +225,7 @@ function createPatternCell(pattern:CommandDef["pattern"], devices:CommandDef["de
   return cell;
 }
 
-function insertControl(table: HTMLTableElement, command: string, name:string, pattern: CommandDef["pattern"], devices:CommandDef["devices"]=[]) {
+function insertControl(table: HTMLTableElement, command: string, name:string, pattern: Pattern, devices:CommandDef["devices"]=[]):void {
   const row = document.createElement('tr');
   row.appendChild(createPatternCell(pattern, devices));
   const button = document.createElement('button');
@@ -230,7 +239,7 @@ function insertControl(table: HTMLTableElement, command: string, name:string, pa
   table.children[0].appendChild(row);
 }
 
-function convertCommandToId(command:string, isLittleEndian:boolean, isLowZero: boolean) {
+function convertCommandToId(command:CommandCode, isLittleEndian:boolean, isLowZero: boolean):number {
   const bits = command.split('').map((d, i) => {
     const isHigh = parseInt(d, 10) >= 3;
     return isLowZero !== isHigh;
@@ -247,7 +256,7 @@ function convertCommandToId(command:string, isLittleEndian:boolean, isLowZero: b
   return id;
 }
 
-function convertIdToCommand(id:number, isLittleEndian: boolean, isLowZero: boolean) {
+function convertIdToCommand(id:number, isLittleEndian: boolean, isLowZero: boolean):CommandCode {
   const places = [0, 1, 2, 3, 4, 5, 6];
   if (!isLittleEndian) {
     places.reverse();
@@ -257,8 +266,7 @@ function convertIdToCommand(id:number, isLittleEndian: boolean, isLowZero: boole
     bits = bits.map(b => (b + 1) % 2);
   }
   const nums = bits.map((b, i) => (b*2) + (i%2) + 1);
-  console.log(nums.join(''));
-  return nums.join('');
+  return nums.join('') as CommandCode;
 }
 
 window.addEventListener('load', () => {
