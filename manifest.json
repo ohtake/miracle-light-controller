@@ -1,0 +1,15 @@
+{
+  "name": "Miracle Light Controller",
+  "short_name": "MLC",
+  "description": "Controller for Miracle Heart/Strawberry Light",
+  "icons": [
+    {
+      "src": "mlc.svg",
+      "sizes": "any"
+    }
+  ],
+  "start_url": "/miracle-light-controller/",
+  "display": "standalone",
+  "theme_color": "#DDAAAA",
+  "background_color": "#BDBDBD"
+}
