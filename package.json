@@ -9,10 +9,11 @@
     "build": "run-p -l check:* build:*",
     "build:static": "cpx ./static/**/* dist/",
     "build:bundle": "esbuild src/mlc.ts --bundle --outfile=dist/mlc.bundle.js --minify",
-    "start": "run-p -l watch:*",
+    "start": "run-p -l watch:* serve",
     "watch:types": "tsc --noEmit --watch",
-    "watch:static": "cpx ./static/**/* develop/ -w",
-    "watch:bundle": "esbuild src/mlc.ts --bundle --outfile=develop/mlc.bundle.js --watch"
+    "watch:static": "cpx ./static/**/* develop/miracle-light-controller/ -w",
+    "watch:bundle": "esbuild src/mlc.ts --bundle --outfile=develop/miracle-light-controller/mlc.bundle.js --watch",
+    "serve": "http-server develop -o miracle-light-controller/"
   },
   "dependencies": {
     "tone": "^14.7.77"
@@ -20,6 +21,7 @@
   "devDependencies": {
     "cpx2": "^4.2.3",
     "esbuild": "^0.17.17",
+    "http-server": "^14.1.1",
     "npm-run-all2": "^6.0.5",
     "rimraf": "^5.0.0",
     "typescript": "^5.0.4"

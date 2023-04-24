@@ -19,8 +19,6 @@ npm ci
 npm start
 ```
 
-Open `develop/index.html` with a browser.
-
 ## Links
 
 * [Miracle Gift Paradeにおける3つのハートの色](https://ameblo.jp/ohtaket/entry-12338123508.html)
