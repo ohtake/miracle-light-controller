@@ -4,7 +4,18 @@
   "description": "Controller for Miracle Heart/Strawberry Light",
   "icons": [
     {
+      "src": "mlc-192.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    },
+    {
+      "src": "mlc-512.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    },
+    {
       "src": "mlc.svg",
+      "type": "image/svg+xml",
       "sizes": "any"
     }
   ],
