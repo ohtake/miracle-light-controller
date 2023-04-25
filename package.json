@@ -9,21 +9,26 @@
     "build": "run-p -l check:* build:*",
     "build:static": "cpx ./static/**/* dist/",
     "build:bundle": "esbuild src/mlc.ts --bundle --outfile=dist/mlc.bundle.js --minify",
+    "build:png": "ts-node scripts/generatePng.ts dist",
     "start": "run-p -l watch:* serve",
     "watch:types": "tsc --noEmit --watch",
     "watch:static": "cpx ./static/**/* develop/miracle-light-controller/ -w",
     "watch:bundle": "esbuild src/mlc.ts --bundle --outfile=develop/miracle-light-controller/mlc.bundle.js --watch",
+    "watch:png": "chokidar ./static/mlc.svg --initial -c \"./node_modules/.bin/ts-node scripts/generatePng.ts develop/miracle-light-controller\"",
     "serve": "http-server develop -o miracle-light-controller/"
   },
   "dependencies": {
     "tone": "^14.7.77"
   },
   "devDependencies": {
+    "chokidar-cli": "^3.0.0",
     "cpx2": "^4.2.3",
     "esbuild": "^0.17.17",
     "http-server": "^14.1.1",
     "npm-run-all2": "^6.0.5",
     "rimraf": "^5.0.0",
+    "sharp": "^0.32.0",
+    "ts-node": "^10.9.1",
     "typescript": "^5.0.4"
   }
 }
