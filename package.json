@@ -15,7 +15,8 @@
     "watch:types": "tsc -p src/tsconfig.json --noEmit --watch",
     "watch:static": "cpx ./static/**/* develop/miracle-light-controller/ -w",
     "watch:bundle": "esbuild src/mlc.ts --bundle --sourcemap --outfile=develop/miracle-light-controller/mlc.bundle.js --watch",
-    "watch:png": "chokidar ./static/mlc.svg --initial -c \"./node_modules/.bin/ts-node scripts/generatePng.ts develop/miracle-light-controller\"",
+    "_watch:png": "chokidar ./static/mlc.svg --initial -c \"./node_modules/.bin/ts-node scripts/generatePng.ts develop/miracle-light-controller\"",
+    "watch:png": "ts-node scripts/generatePng.ts develop/miracle-light-controller",
     "serve": "http-server develop -o miracle-light-controller/"
   },
   "dependencies": {
