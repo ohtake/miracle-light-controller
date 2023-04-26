@@ -2,10 +2,11 @@
   "compilerOptions": {
     "strict": true,
     "moduleResolution": "node16",
-    "lib": ["ES2022"],
-    "target": "es6",
+    "lib": ["DOM","ES2022"],
+    "target": "es2016",
     "module": "None",
     "outDir": "../dist",
     "esModuleInterop": true,
+    "removeComments": true
   }
 }

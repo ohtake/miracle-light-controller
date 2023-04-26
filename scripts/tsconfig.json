@@ -1,0 +1,10 @@
+{
+  "compilerOptions": {
+    "strict": true,
+    "moduleResolution": "node16",
+    "lib": ["ES2022"],
+    "target": "es6",
+    "module": "CommonJS",
+    "esModuleInterop": true,
+  }
+}

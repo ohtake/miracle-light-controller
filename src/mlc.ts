@@ -324,7 +324,7 @@ window.addEventListener('load', () => {
   });
 
   if ("serviceWorker" in window.navigator) {
-    navigator.serviceWorker.register('service-worker.bundle.js', {
+    navigator.serviceWorker.register('service-worker.js', {
       scope: "/miracle-light-controller/"
     });
   }
