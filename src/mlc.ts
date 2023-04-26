@@ -322,4 +322,10 @@ window.addEventListener('load', () => {
   })).sort((x, y) => x.id - y.id).forEach((o, i) => {
     insertControl(t, o.command, o.id + '-' + o.command, o.pattern, o.devices);
   });
+
+  if ("serviceWorker" in window.navigator) {
+    navigator.serviceWorker.register('service-worker.bundle.js', {
+      scope: "/miracle-light-controller/"
+    });
+  }
 });

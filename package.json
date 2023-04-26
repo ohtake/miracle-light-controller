@@ -6,14 +6,17 @@
   "scripts": {
     "clean": "rimraf ./dist ./develop",
     "check:types": "tsc --noEmit",
+    "check:types-sw": "tsc -p src-sw/tsconfig.json --noEmit",
     "build": "run-p -l check:* build:*",
     "build:static": "cpx ./static/**/* dist/",
     "build:bundle": "esbuild src/mlc.ts --bundle --outfile=dist/mlc.bundle.js --minify",
+    "build:sw": "esbuild src-sw/service-worker.ts --bundle --outfile=dist/service-worker.bundle.js --minify",
     "build:png": "ts-node scripts/generatePng.ts dist",
     "start": "run-p -l watch:* serve",
     "watch:types": "tsc --noEmit --watch",
     "watch:static": "cpx ./static/**/* develop/miracle-light-controller/ -w",
     "watch:bundle": "esbuild src/mlc.ts --bundle --outfile=develop/miracle-light-controller/mlc.bundle.js --watch",
+    "watch:sw": "esbuild src-sw/service-worker.ts --bundle --outfile=develop/miracle-light-controller/service-worker.bundle.js --watch",
     "watch:png": "chokidar ./static/mlc.svg --initial -c \"./node_modules/.bin/ts-node scripts/generatePng.ts develop/miracle-light-controller\"",
     "serve": "http-server develop -o miracle-light-controller/"
   },
