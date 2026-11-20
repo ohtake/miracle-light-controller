@@ -1,12 +1,13 @@
 {
   "compilerOptions": {
     "strict": true,
-    "moduleResolution": "node16",
-    "lib": ["DOM","ES2022"],
-    "target": "es2016",
-    "module": "None",
+    "moduleResolution": "bundler",
+    "lib": ["DOM", "ES2022"],
+    "target": "ES2022",
+    "module": "ESNext",
     "outDir": "../dist",
     "esModuleInterop": true,
-    "removeComments": true
+    "removeComments": true,
+    "skipLibCheck": true
   }
 }
