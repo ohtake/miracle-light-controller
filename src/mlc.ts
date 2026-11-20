@@ -1,4 +1,4 @@
-import { Synth, Transport } from "tone";
+import { Synth, getTransport } from "tone";
 
 const signalHz = [
   18500,
@@ -170,7 +170,7 @@ const commands: CommandDef[] = [
   { command: '3434343', pattern: [] },
 ];
 
-let synth:Synth | undefined;
+let synth: Synth | undefined;
 function getSynth(): Synth {
   if(synth) return synth;
   // Create synth object in event handler to support iOS
@@ -178,13 +178,13 @@ function getSynth(): Synth {
     oscillator: {
       type: 'sine',
     },
-  }).toMaster();
+  }).toDestination();
   return synth;
 }
 
 function playSignal(command:string):void {
   const synth = getSynth();
-  const transport = Transport;
+  const transport = getTransport();
   transport.scheduleOnce(() => {
     synth.triggerAttack(signalHz[0]);
   }, '+0.0');
